@@ -11,11 +11,11 @@ module.exports = {
     filename: 'main.bundle.js',
   }
   // devtool: 'eval-source-map',
-  // module: {
-  //   loaders: [
-  //     { test: path.join(__dirname, 'js'),
-  //       loader: 'babel-loader',
-  //       query: { presets: 'es2015' } },
-  //   ]
-  // }
+  module: {
+    loaders: [
+      { test: path.join(__dirname, 'js'),
+        loader: 'babel-loader',
+        query: { presets: 'es2015' } },
+    ]
+  }
 };

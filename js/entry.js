@@ -1,2 +1,4 @@
-document.write('It works.');
-console.log('It works.');
+import 'phaser-ce';
+import Game from './Game.js';
+
+new Game();
