@@ -1,5 +1,5 @@
 {
-  "name": "phaser_jitter",
+  "name": "arrow_p",
   "version": "1.0.0",
   "description": "Trying to get Phaser to not cause scaled sprites to jitter.",
   "main": "index.js",

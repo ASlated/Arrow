@@ -1,23 +1,18 @@
-import Player from './player.js';
+import Player from './Player.js';
+import Area from './Area.js';
 
 class PlayState extends Phaser.State {
   create() {
     this.game.stage.backgroundColor = '#94C4FF';
     this.game.physics.arcade.gravity.y = 1000;
     this.keyboard = this.game.input.keyboard;
-    this.map = this.game.add.tilemap('map', 16, 16);
-    this.map.addTilesetImage('tiles');
-    this.map.setCollisionByExclusion([-1]);
-    this.layer = this.map.createLayer(0);
-    this.layer.setScale(2, 2);
-    this.layer.resizeWorld();
+    this.area = new Area(this.game, 'grass_area', 'area_1');
     this.player = new Player(this.game, 0, 0);
-    this.game.world.setBounds(0, 0, 1024, 240);
-    this.game.camera.follow(this.player);
+    this.game.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON, 0.1, 0.1);
   }
 
   update() {
-    this.game.physics.arcade.collide(this.player, this.layer);
+    this.game.physics.arcade.collide(this.player, this.area.layer);
     if (this.keyboard.isDown(Phaser.Keyboard.SHIFT)) {
       this.player.running = true;
     } else {
@@ -36,6 +31,13 @@ class PlayState extends Phaser.State {
     if (!this.player.body.blocked.down) {
       this.player.air();
     }
+    if (this.player.flashing) {
+      this.player.flash();
+    }
+  }
+
+  render() {
+    // this.game.debug.geom(this.game.camera.deadzone);
   }
 
 }

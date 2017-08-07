@@ -2,14 +2,22 @@ class Player extends Phaser.Sprite {
   constructor(game, x, y) {
     super(game, x, y, 'player', 0);
     this.game = game;
+    this.game.physics.enable(this, Phaser.Physics.ARCADE);
+    this.body.setSize(9, 15, 7);
+    this.facing = 'right';
+    this.scale.setTo(2, 2);
+    this.body.collideWorldBounds = true;
+
     this.walkSpeed = 100;
     this.runSpeed = 200;
     this.jumpHeight = 200;
-    this.scale.setTo(2, 2);
-    this.facing = 'right';
-    this.game.physics.enable(this, Phaser.Physics.ARCADE);
-    this.game.add.existing(this);
-    // debugger;
+    this.jumpLength = 15;
+    this.jumpTimer = this.jumpLength;
+
+    this.flashTimer = 0;
+    this.flashRate = 5;
+    this.flashing = false;
+
     this.frames = {
       idle_right: 0,
       idle_left: 3,
@@ -20,6 +28,10 @@ class Player extends Phaser.Sprite {
     }
     this.animations.add('walk-right', [2, 0, 1, 0], 7);
     this.animations.add('walk-left', [5, 3, 4, 3], 7);
+
+    this.game.add.existing(this);
+
+    this.flash = this.flash.bind(this);
   }
 
   walk(facing) {
@@ -31,9 +43,9 @@ class Player extends Phaser.Sprite {
       this.speed = this.walkSpeed;
     }
     if (this.facing == 'right') {
-      this.body.velocity.x = this.speed
+      this.body.velocity.x = this.speed;
     } else {
-      this.body.velocity.x = -this.speed
+      this.body.velocity.x = -this.speed;
     }
   }
 
@@ -45,25 +57,32 @@ class Player extends Phaser.Sprite {
 
   jump() {
     if (this.body.blocked.down) {
-      this.jumptimer = 1;
+      this.jumpTimer = 0;
       this.body.velocity.y = -this.jumpHeight;
-    } else if (this.jumptimer != 0) {
-      if (this.jumptimer > 15) {
-        this.jumptimer = 0;
-      } else {
-        this.jumptimer++;
-        this.body.velocity.y = -this.jumpHeight;
-      }
-    } else if (this.jumptimer != 0) {
-      this.jumptimer = 0;
+    } else if (this.jumpTimer < this.jumpLength) {
+      this.body.velocity.y = -this.jumpHeight;
     }
   }
 
   air() {
+    this.jumpTimer++;
     if (this.body.velocity.y < 0) {
       this.frame = this.frames['jump_' + this.facing];
     } else {
       this.frame = this.frames['fall_' + this.facing];
+    }
+  }
+
+  flash() {
+    if (this.flashTimer < this.flashRate) {
+      this.flashTimer++;
+    } else {
+      if (this.alpha == 1) {
+        this.alpha = 0;
+      } else {
+        this.alpha = 1;
+      }
+      this.flashTimer = 0;
     }
   }
 }
