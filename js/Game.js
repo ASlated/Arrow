@@ -10,7 +10,7 @@ class Game extends Phaser.Game {
     //   antialias: false,
     //   resolution: 3
     // }
-    super({width: 256, height: 240, antialias: false, resolution: 3});
+    super({width: 512, height: 480, antialias: false, resolution: 2});
 
     this.state.add('boot', new BootState(this));
     this.state.add('load', new LoadState(this));
