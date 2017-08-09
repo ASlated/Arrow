@@ -1,0 +1,17 @@
+"area_1": {
+  "scenery": [
+    {
+      "type": "tree",
+      "x": 6,
+      "y": 7
+    }
+  ],
+
+  "entities": [
+    {
+      "type": "meerkat",
+      "x": 10,
+      "y": 12
+    }
+  ]
+}
