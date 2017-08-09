@@ -8,13 +8,13 @@ class PlayState extends Phaser.State {
     this.game.stage.backgroundColor = '#000000';
     this.game.physics.arcade.gravity.y = 1000;
     this.keyboard = this.game.input.keyboard;
-    // this.background = this.game.add.graphics(0, 0);
-    // this.background.fixedToCamera = true;
-    // this.background.beginFill(0x94C4FF, 1);
-    // this.background.drawRect(0, 0, this.game.width, this.game.height);
+    this.background = this.game.add.graphics(0, 0);
+    this.background.fixedToCamera = true;
+    this.background.beginFill(0x94C4FF, 1);
+    this.background.drawRect(0, 0, this.game.width, this.game.height);
     this.area = new Area(this.game, 'grass_area', 'area_1');
-    this.background = this.game.add.tileSprite(0, 0, this.game.world.width, this.game.world.height, 'background');
-    this.game.world.swap(this.area.layer, this.background);
+    // this.background = this.game.add.tileSprite(0, 0, this.game.world.width, this.game.world.height, 'background');
+    // this.game.world.swap(this.area.layer, this.background);
     this.reach = this.game.add.graphics(0, 0);
     this.aim = this.game.add.graphics(0, 0);
     this.meerkat = new Meerkat(this.game, 320, 300);
@@ -24,23 +24,23 @@ class PlayState extends Phaser.State {
     this.game.input.onUp.add(this.shoot, this);
     this.game.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON, 0.1, 0.1);
     if (this.game.device.iOS || this.game.device.android || this.game.device.windowsPhone) {
-      this.leftButton = this.game.add.button(16, this.game.height - 80, 'walkButton', null, this, 0, 0, 1);
+      this.leftButton = this.game.add.button(8, this.game.height - 72, 'walkButton', null, this, 0, 0, 1);
       this.leftButton.onInputDown.add(this.walkLeft, this);
       this.leftButton.onInputUp.add(this.stopWalkLeft, this);
       this.leftButton.fixedToCamera = true;
-      this.rightButton = this.game.add.button(84, this.game.height - 80, 'walkButton', null, this, 0, 0, 1);
+      this.rightButton = this.game.add.button(76, this.game.height - 72, 'walkButton', null, this, 0, 0, 1);
       this.rightButton.onInputDown.add(this.walkRight, this);
       this.rightButton.onInputUp.add(this.stopWalkRight, this);
       this.rightButton.fixedToCamera = true;
-      this.jumpButton = this.game.add.button(16, this.game.height - 216, 'jumpButton', null, this, 0, 0, 1);
+      this.jumpButton = this.game.add.button(8, this.game.height - 208, 'jumpButton', null, this, 0, 0, 1);
       this.jumpButton.onInputDown.add(this.jump, this);
       this.jumpButton.onInputUp.add(this.stopJump, this);
       this.jumpButton.fixedToCamera = true;
-      this.jumpLeftButton = this.game.add.button(16, this.game.height - 148, 'walkButton', null, this, 0, 0, 1);
+      this.jumpLeftButton = this.game.add.button(8, this.game.height - 140, 'walkButton', null, this, 0, 0, 1);
       this.jumpLeftButton.onInputDown.add(this.jumpLeft, this);
       this.jumpLeftButton.onInputUp.add(this.stopJumpLeft, this);
       this.jumpLeftButton.fixedToCamera = true;
-      this.jumpRightButton = this.game.add.button(84, this.game.height - 148, 'walkButton', null, this, 0, 0, 1);
+      this.jumpRightButton = this.game.add.button(76, this.game.height - 140, 'walkButton', null, this, 0, 0, 1);
       this.jumpRightButton.onInputDown.add(this.jumpRight, this);
       this.jumpRightButton.onInputUp.add(this.stopJumpRight, this);
       this.jumpRightButton.fixedToCamera = true;
@@ -48,7 +48,7 @@ class PlayState extends Phaser.State {
   }
 
   update() {
-    this.background.x = this.camera.x * 0.6;
+    // this.background.x = this.camera.x * 0.6;
     this.trajectory = new Phaser.Line(this.player.x, this.player.y, this.input.x + this.camera.x, this.input.y + this.camera.y);
     this.reach.clear();
     this.aim.clear();
