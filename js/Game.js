@@ -4,13 +4,14 @@ import PlayState from './PlayState.js';
 
 class Game extends Phaser.Game {
   constructor() {
-    // config = {
-    //   width: 256,
-    //   height: 240,
-    //   antialias: false,
-    //   resolution: 3
-    // }
-    super({width: 512, height: 480, antialias: false, resolution: 2});
+    let config = {
+      width: 640,
+      height: 480,
+      antialias: false,
+      resolution: 2,
+      parent: 'game',
+    };
+    super(config);
 
     this.state.add('boot', new BootState(this));
     this.state.add('load', new LoadState(this));

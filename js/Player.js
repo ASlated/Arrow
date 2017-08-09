@@ -1,15 +1,19 @@
 class Player extends Phaser.Sprite {
   constructor(game, x, y) {
-    super(game, x, y, 'player', 0);
+    super(game, x, y, 'player');
     this.game = game;
     this.game.physics.enable(this, Phaser.Physics.ARCADE);
-    this.body.setSize(9, 15, 7);
+    this.body.setSize(9, 15, 1);
     this.facing = 'right';
     this.scale.setTo(2, 2);
+    this.anchor.setTo(0.5, 0.5)
     this.body.collideWorldBounds = true;
 
+    this.walkingLeft = false;
+    this.walkingRight = false;
+
     this.walkSpeed = 100;
-    this.runSpeed = 200;
+    this.runSpeed = 150;
     this.jumpHeight = 200;
     this.jumpLength = 15;
     this.jumpTimer = this.jumpLength;
@@ -26,8 +30,10 @@ class Player extends Phaser.Sprite {
       fall_right: 7,
       fall_left: 9,
     }
-    this.animations.add('walk-right', [2, 0, 1, 0], 7);
-    this.animations.add('walk-left', [5, 3, 4, 3], 7);
+    this.animations.add('walk-right', [2, 0, 1, 0], 5);
+    this.animations.add('walk-left', [5, 3, 4, 3], 5);
+    this.animations.add('run-right', [2, 0, 1, 0], 7);
+    this.animations.add('run-left', [5, 3, 4, 3], 7);
 
     this.game.add.existing(this);
 
@@ -36,7 +42,11 @@ class Player extends Phaser.Sprite {
 
   walk(facing) {
     this.facing = facing;
-    this.animations.play('walk-' + this.facing);
+    if (this.running) {
+      this.animations.play('run-' + this.facing);
+    } else {
+      this.animations.play('walk-' + this.facing);
+    }
     if (this.running) {
       this.speed = this.runSpeed;
     } else {
