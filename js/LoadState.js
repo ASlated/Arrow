@@ -8,10 +8,11 @@ class LoadState extends Phaser.State {
     this.game.load.image('grass_area', '/assets/tilesets/grass.png');
     this.game.load.image('background', '/assets/sprites/background.jpg');
     this.game.load.tilemap('area_1', '/assets/tilemaps/area_1.csv', null, Phaser.Tilemap.CSV);
+    this.game.load.tilemap('area_2', '/assets/tilemaps/area_2.csv', null, Phaser.Tilemap.CSV);
   }
 
   create() {
-    this.game.state.start('play');
+    this.game.state.start('play', true, false, {area: 'area_2'});
   }
 }
 
