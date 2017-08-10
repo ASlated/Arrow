@@ -6,17 +6,15 @@ class Arrows extends Phaser.Group {
     this.maxRange = 250;
     this.rangeIncrease = 2;
     this.range = this.minRange;
-    this.line = new Phaser.Line();
   }
 
   shoot(trajectory) {
     let frame = this.getFrame(trajectory.angle);
     let arrow = this.arrow(trajectory.start.x, trajectory.start.y, frame);
-    arrow.angle = trajectory.angle + Math.random() * 0.1 - 0.05;
+    arrow.internalAngle = trajectory.angle;
     this.add(arrow);
     arrow.body.gravity.y = 500;
-    this.line.fromAngle(arrow.x, arrow.y, arrow.angle, this.range);
-    this.game.physics.arcade.velocityFromRotation(arrow.angle, 700, arrow.body.velocity);
+    this.game.physics.arcade.velocityFromRotation(arrow.internalAngle, this.range * 5, arrow.body.velocity);
     this.game.time.events.add(3000, this.destroyArrow, this)
     this.range = this.minRange;
   }
@@ -25,6 +23,7 @@ class Arrows extends Phaser.Group {
     if (this.range < this.maxRange) {
       this.range += this.rangeIncrease;
     }
+    this.chargeCapacity = (this.range - this.minRange) / (this.maxRange - this.minRange)
   }
 
   arrow(x, y, frame) {

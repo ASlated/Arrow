@@ -9,7 +9,6 @@ class Player extends Phaser.Sprite {
     this.facing = 'right';
     this.scale.setTo(2, 2);
     this.anchor.setTo(0.5, 0.5)
-    this.body.collideWorldBounds = true;
 
     this.chargeFrames = {'10': 0, '12': -45, '14': 45, '16': 180, '18': -135, '20': 135};
 
