@@ -12,14 +12,7 @@ class Arrows extends Phaser.Group {
   shoot(trajectory) {
     let frame = this.getFrame(trajectory.angle);
     let arrow = this.arrow(trajectory.start.x, trajectory.start.y, frame);
-    if (trajectory.length > this.range) {
-      let newTrajectory = new Phaser.Line(0, 0, 0, 0);
-      newTrajectory.fromAngle(trajectory.start.x, trajectory.start.y, trajectory.angle, this.range);
-      // let move = this.game.add.tween(arrow).to({x: newTrajectory.end.x, y: newTrajectory.end.y}, newTrajectory.length * 2, 'Linear', true);
-    } else {
-      // let move = this.game.add.tween(arrow).to({x: trajectory.end.x, y: trajectory.end.y}, trajectory.length, 'Linear', true);
-    }
-    arrow.angle = trajectory.angle;
+    arrow.angle = trajectory.angle + Math.random() * 0.1 - 0.05;
     this.add(arrow);
     arrow.body.gravity.y = 500;
     this.line.fromAngle(arrow.x, arrow.y, arrow.angle, this.range);
@@ -35,7 +28,7 @@ class Arrows extends Phaser.Group {
   }
 
   arrow(x, y, frame) {
-    let arrow = new Phaser.Sprite(this.game, x, y, 'arrow', frame);
+    let arrow = new Phaser.Sprite(this.game, x, y, 'arrow', 0);
     arrow.scale.setTo(2, 2);
     return arrow;
   }

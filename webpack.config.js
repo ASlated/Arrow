@@ -15,6 +15,7 @@ module.exports = {
   module: {
     loaders: [
       { test: path.join(__dirname, 'js'), loader: 'babel-loader', query: { presets: 'es2015' } },
+      // { test: /\.json$/, loader: 'json' },
       { test: /(pixi|phaser).js/, loader: 'script-loader' }
     ]
   }

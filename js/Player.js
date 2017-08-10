@@ -1,3 +1,5 @@
+const keyboards = require('../assets/keyboards.json');
+
 class Player extends Phaser.Sprite {
   constructor(game, x, y) {
     super(game, x, y, 'player');
@@ -9,11 +11,12 @@ class Player extends Phaser.Sprite {
     this.anchor.setTo(0.5, 0.5)
     this.body.collideWorldBounds = true;
 
+    this.chargeFrames = {'10': 0, '12': -45, '14': 45, '16': 180, '18': -135, '20': 135};
+
     this.walkingLeft = false;
     this.walkingRight = false;
 
-    this.walkSpeed = 100;
-    this.runSpeed = 150;
+    this.speed = 150;
     this.jumpHeight = 200;
     this.jumpLength = 15;
     this.jumpTimer = this.jumpLength;
@@ -30,10 +33,9 @@ class Player extends Phaser.Sprite {
       fall_right: 7,
       fall_left: 9,
     }
-    this.animations.add('walk-right', [2, 0, 1, 0], 5);
-    this.animations.add('walk-left', [5, 3, 4, 3], 5);
-    this.animations.add('run-right', [2, 0, 1, 0], 7);
-    this.animations.add('run-left', [5, 3, 4, 3], 7);
+
+    this.animations.add('walk-right', [2, 0, 1, 0], 7);
+    this.animations.add('walk-left', [5, 3, 4, 3], 7);
 
     this.game.add.existing(this);
 
@@ -42,16 +44,7 @@ class Player extends Phaser.Sprite {
 
   walk(facing) {
     this.facing = facing;
-    if (this.running) {
-      this.animations.play('run-' + this.facing);
-    } else {
-      this.animations.play('walk-' + this.facing);
-    }
-    if (this.running) {
-      this.speed = this.runSpeed;
-    } else {
-      this.speed = this.walkSpeed;
-    }
+    this.animations.play('walk-' + this.facing);
     if (this.facing == 'right') {
       this.body.velocity.x = this.speed;
     } else {
@@ -93,6 +86,54 @@ class Player extends Phaser.Sprite {
         this.alpha = 1;
       }
       this.flashTimer = 0;
+    }
+  }
+
+  closest(num, arr) {
+    let curr = arr[0];
+    let diff = Math.abs(num - curr);
+    for (let val = 0; val < arr.length; val++) {
+      let newdiff = Math.abs (num - arr[val]);
+      if (newdiff < diff) {
+        diff = newdiff;
+        curr = arr[val];
+      }
+    }
+    return curr;
+  }
+
+  getKeyByValue(obj, value) {
+    for(let key in obj) {
+      if(obj[key] === value) {
+        return key;
+      }
+    }
+  }
+
+  charge(trajectory) {
+    let angles = []
+    for(let i in this.chargeFrames) { angles.push(this.chargeFrames[i]); }
+    this.frame = parseInt(this.getKeyByValue(this.chargeFrames, this.closest(Phaser.Math.radToDeg(trajectory.angle), angles)));
+  }
+
+
+  movement(keyboard) {
+    if (!this.charging) {
+      if (keyboard.isDown(Phaser.Keyboard[keyboards[this.game.keyboardLayout].right]) || this.walkingRight) {
+        this.walk("right");
+      } else if (keyboard.isDown(Phaser.Keyboard[keyboards[this.game.keyboardLayout].left]) || this.walkingLeft) {
+        this.walk("left");
+      } else {
+        this.halt();
+      }
+
+      if (keyboard.isDown(Phaser.Keyboard[keyboards[this.game.keyboardLayout].jump]) || this.jumping) {
+        this.jump();
+      }
+
+      if (!this.body.blocked.down) {
+        this.air();
+      }
     }
   }
 }

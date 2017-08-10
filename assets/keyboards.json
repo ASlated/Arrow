@@ -1,0 +1,12 @@
+{
+  "qwerty": {
+    "jump": "SPACEBAR",
+    "left": "A",
+    "right": "D"
+  },
+  "dvorak": {
+    "jump": "SPACEBAR",
+    "left": "A",
+    "right": "E"
+  }
+}
