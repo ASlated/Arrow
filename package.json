@@ -17,8 +17,11 @@
     "webpack": "^3.4.1"
   },
   "dependencies": {
+    "babel-preset-react": "^6.24.1",
     "phaser-ce": "^2.8.3",
     "phaser-shim": "^2.4.8",
-    "pixi": "^0.3.1"
+    "pixi": "^0.3.1",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1"
   }
 }

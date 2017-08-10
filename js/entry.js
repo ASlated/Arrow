@@ -1,4 +1,11 @@
 import 'phaser-shim';
 import Game from './Game.js';
+import Controls from "./Controls.jsx"
 
-new Game();
+const game = new Game();
+
+Controls({
+  onChangeKeyboardLayout: (layout) => {
+    game.keyboardLayout = layout;
+  }
+});

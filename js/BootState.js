@@ -3,7 +3,8 @@ class BootState extends Phaser.State {
     // this.game.renderer.renderSession.roundPixels = true;
     // this.game.scale.scaleMode = Phaser.ScaleManager.RESIZE;
     // this.game.scale.setMinMax(512, 480, 512, 480);
-    this.game.keyboardLayout = prompt("Enter your current keyboard layout: ", "qwerty").toLowerCase();
+    // this.game.keyboardLayout = prompt("Enter your current keyboard layout: ", "qwerty").toLowerCase();
+    this.game.keyboardLayout = 'qwerty';
     this.game.physics.startSystem(Phaser.Physics.ARCADE);
     this.game.scale.fullScreenScaleMode = Phaser.ScaleManager.SHOW_ALL;
     this.goFull = this.goFull.bind(this);
