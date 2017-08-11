@@ -6,6 +6,9 @@ class Arrows extends Phaser.Group {
     this.maxRange = 250;
     this.rangeIncrease = 2;
     this.range = this.minRange;
+
+    this.frames = [-0.5, -0.75, -1, 0.75, 0.5, 0.25, 0, -0.25];
+    for (let i = 0; i < this.frames.length; i++) { this.frames[i] *= Math.PI; }
   }
 
   shoot(trajectory) {
@@ -13,10 +16,23 @@ class Arrows extends Phaser.Group {
     let arrow = this.arrow(trajectory.start.x, trajectory.start.y, frame);
     arrow.internalAngle = trajectory.angle;
     this.add(arrow);
-    arrow.body.gravity.y = 500;
-    this.game.physics.arcade.velocityFromRotation(arrow.internalAngle, this.range * 5, arrow.body.velocity);
+    arrow.body.gravity.y = 20;
+    this.game.physics.arcade.velocityFromRotation(arrow.internalAngle, this.range * 3, arrow.body.velocity);
     this.game.time.events.add(3000, this.destroyArrow, this)
     this.range = this.minRange;
+  }
+
+  closest(num, arr) {
+    let curr = arr[0];
+    let diff = Math.abs(num - curr);
+    for (let val = 0; val < arr.length; val++) {
+      let newdiff = Math.abs(num - arr[val]);
+      if (newdiff < diff) {
+        diff = newdiff;
+        curr = arr[val];
+      }
+    }
+    return arr.indexOf(curr);
   }
 
   charge() {
@@ -37,7 +53,7 @@ class Arrows extends Phaser.Group {
   }
 
   getFrame(angle) {
-    return Math.round((angle + Math.PI) / (Math.PI * 2) * 7);
+    return this.closest(angle, this.frames);
   }
 }
 

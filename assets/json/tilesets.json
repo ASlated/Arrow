@@ -1,0 +1,10 @@
+{
+  "snow": {
+    "color": "65749f",
+    "setCollisionByExclusion": [3]
+  },
+  "grass": {
+    "color": "94C4FF",
+    "setCollisionByExclusion": [12, 13, 20]
+  }
+}

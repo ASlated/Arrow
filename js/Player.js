@@ -1,4 +1,4 @@
-const keyboards = require('../assets/keyboards.json');
+const keyboards = require('../assets/json/keyboards.json');
 
 class Player extends Phaser.Sprite {
   constructor(game, x, y) {
@@ -110,6 +110,7 @@ class Player extends Phaser.Sprite {
   }
 
   charge(trajectory) {
+    this.charging = true;
     let angles = []
     for(let i in this.chargeFrames) { angles.push(this.chargeFrames[i]); }
     this.frame = parseInt(this.getKeyByValue(this.chargeFrames, this.closest(Phaser.Math.radToDeg(trajectory.angle), angles)));
