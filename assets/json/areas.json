@@ -1,0 +1,48 @@
+{
+  "area_1": {
+    "tilemap": "area_1",
+    "tileset": "grass",
+    "entities": [
+      {
+        "type": "meerkat",
+        "x": 10,
+        "y": 12
+      }
+    ],
+    "player": {
+      "x": 10,
+      "y": 10
+    }
+  },
+
+  "area_2": {
+    "tilemap": "area_2",
+    "tileset": "grass",
+    "entities": [],
+    "player": {
+      "x": 10,
+      "y": 10
+    }
+  },
+
+  "area_3": {
+    "tilemap": "area_3",
+    "tileset": "grass",
+    "entities": [],
+    "player": {
+      "x": 10,
+      "y": 10
+    }
+  },
+
+  "area_4": {
+    "tilemap": "area_4",
+    "scenery": true,
+    "tileset": "snow",
+    "entities": [],
+    "player": {
+      "x": 212,
+      "y": 530
+    }
+  }
+}

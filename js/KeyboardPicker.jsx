@@ -5,7 +5,7 @@ class KeyboardPicker extends React.Component {
   constructor(props) {
     super(props);
     this.onSelectChange = this.onSelectChange.bind(this);
-    this.state = { layout: 'qwerty' };
+    this.state = { layout: 'dvorak' };
   }
 
   onSelectChange(event) {
@@ -16,9 +16,9 @@ class KeyboardPicker extends React.Component {
 
   render() {
     return (
-      <select onChange={this.onSelectChange}>
-        <option value="qwerty">qwerty</option>
+      <select onChange={this.onSelectChange} value={this.state.layout}>
         <option value="dvorak">dvorak</option>
+        <option value="qwerty">qwerty</option>
       </select>
     );
   }

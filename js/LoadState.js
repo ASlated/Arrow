@@ -7,11 +7,13 @@ class LoadState extends Phaser.State {
     this.game.load.spritesheet('jumpButton', '/assets/sprites/jumpButton.png', 44, 66);
     this.game.load.image('grass_area', '/assets/tilesets/grass.png');
     this.game.load.image('snow_area', '/assets/tilesets/snow.png');
+    this.game.load.image('scenery', '/assets/tilesets/scenery.png');
     this.game.load.image('background', '/assets/sprites/background.jpg');
     this.game.load.tilemap('area_1', '/assets/tilemaps/area_1.csv', null, Phaser.Tilemap.CSV);
     this.game.load.tilemap('area_2', '/assets/tilemaps/area_2.csv', null, Phaser.Tilemap.CSV);
     this.game.load.tilemap('area_3', '/assets/tilemaps/area_3.csv', null, Phaser.Tilemap.CSV);
-    this.game.load.tilemap('area_4', '/assets/tilemaps/area_4.csv', null, Phaser.Tilemap.CSV);
+    this.game.load.tilemap('area_4_main', '/assets/tilemaps/area_4_main.csv', null, Phaser.Tilemap.CSV);
+    this.game.load.tilemap('area_4_scenery', '/assets/tilemaps/area_4_scenery.csv', null, Phaser.Tilemap.CSV);
   }
 
   create() {

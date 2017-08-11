@@ -5,7 +5,7 @@ import PlayState from './PlayState.js';
 class Game extends Phaser.Game {
   constructor() {
     let config = {
-      width: 640,
+      width: 768,
       height: 480,
       antialias: false,
       resolution: 2,
