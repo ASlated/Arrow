@@ -37,7 +37,17 @@
 
   "area_4": {
     "tilemap": "area_4",
-    "scenery": true,
+    "scenery": [
+      {"key": "tree", "x": 3, "y": 14},
+      {"key": "tree", "x": 3, "y": 3},
+      {"key": "tree", "x": 14, "y": 12},
+      {"key": "tree", "x": 22, "y": 4},
+      {"key": "tree", "x": 28, "y": 4},
+      {"key": "tree", "x": 35, "y": 11},
+      {"key": "tree", "x": 41, "y": 14},
+      {"key": "tree", "x": 48, "y": 14},
+      {"key": "tree", "x": 59, "y": 14}
+    ],
     "tileset": "snow",
     "entities": [],
     "player": {

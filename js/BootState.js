@@ -9,7 +9,6 @@ class BootState extends Phaser.State {
     this.goFull = this.goFull.bind(this);
     document.getElementById('button').onclick = this.goFull;
     this.game.state.start('load');
-
   }
 
   goFull() {

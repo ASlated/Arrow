@@ -5,7 +5,7 @@ class Player extends Phaser.Sprite {
     super(game, x, y, 'player');
     this.game = game;
     this.game.physics.enable(this, Phaser.Physics.ARCADE);
-    this.body.setSize(9, 15, 1);
+    this.body.setSize(10, 15, -1);
     this.facing = 'right';
     this.scale.setTo(2, 2);
     this.anchor.setTo(0.5, 0.5)

@@ -13,9 +13,15 @@ module.exports = {
   },
   devtool: 'eval-source-map',
   module: {
+    // rules: [
+    //   {
+    //     test: /\.exec\.js$/,
+    //     use: [ 'script-loader' ]
+    //   }
+    // ],
     loaders: [
       {
-        test: /.jsx?$/,
+        test: /.jsx$/,
         loader: 'babel-loader',
         exclude: /node_modules/,
         query: {
@@ -23,15 +29,18 @@ module.exports = {
         }
       },
       {
-        test: /.js?$/,
+        test: /.js$/,
         loader: 'babel-loader',
         exclude: /node_modules/,
         query: {
           presets: ['es2015']
         }
       },
-      // { test: /\.json$/, loader: 'json' },
-      { test: /(pixi|phaser).js/, loader: 'script-loader' }
-    ]
+      { test: /(pixi|phaser).js/, loader: 'script-loader' },
+      {
+        test: /\.exec\.js$/,
+        loader: 'script-loader'
+      }
+    ],
   }
 };

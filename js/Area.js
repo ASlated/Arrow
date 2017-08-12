@@ -8,18 +8,17 @@ class Area {
     this.tileset = tilesets[this.area.tileset];
     this.game.stage.backgroundColor = '#' + this.tileset.color;
     this.barColor = parseInt(this.invertHex(this.tileset.color), 16);
-    let map;
-    if (this.area.scenery) {
-      map = this.game.add.tilemap(this.area.tilemap + '_main', 16, 16);
-    } else {
-      map = this.game.add.tilemap(this.area.tilemap, 16, 16);
-    }
+    let map = this.game.add.tilemap(this.area.tilemap, 16, 16);
     map.addTilesetImage(this.area.tileset + '_area');
     map.setCollisionByExclusion(this.tileset.setCollisionByExclusion);
     this.layer = map.createLayer(0);
     this.layer.setScale(2, 2);
     this.layer.resizeWorld();
     this.player = this.area.player;
+  }
+
+  preload() {
+    this.game.load.tilemap(this.area.tilemap, '/assets/tilemaps/' + this.area.tilemap + '.csv');
   }
 
   invertHex(hexnum){
@@ -55,10 +54,23 @@ class Area {
   }
 
   drawScenery() {
-    let sceneryMap = this.game.add.tilemap(this.area.tilemap + '_scenery', 16, 16);
-    sceneryMap.addTilesetImage('scenery');
-    this.sceneryLayer = sceneryMap.createLayer(0);
-    this.sceneryLayer.setScale(2, 2);
+    if (this.area.scenery) {
+      this.area.scenery.forEach(function(element) {
+        this.game.add.sprite(element.x * 32, element.y * 32, element.key).scale.setTo(2, 2);
+      }.bind(this));
+    }
+  }
+
+  asyncLoad(key) {
+    // this.game.load.tilemap(key, '/assets/tilemaps/' + key + '.csv');
+    // this.game.load.start();
+    // let index = window.setInterval(function() {
+    //   if (this.game.load.isLoading {
+    //     return;
+    //   }
+    //   window.clearInterval(index);
+    // },
+    // 1000);
   }
 
 }

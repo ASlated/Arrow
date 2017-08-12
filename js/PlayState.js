@@ -2,6 +2,7 @@ import Player from './Player.js';
 import Area from './Area.js';
 import Meerkat from './Meerkat.js';
 import Arrows from './Arrows.js';
+import VirtualJoystick from './phaser-virtual-joystick.exec.js';
 
 class PlayState extends Phaser.State {
   init(options) {
@@ -11,6 +12,9 @@ class PlayState extends Phaser.State {
   }
 
   create() {
+    this.controller = this.game.plugins.add(Phaser.VirtualJoystick);
+    this.stick = this.controller.addStick(82, this.game.height - 82, 150, 'generic');
+    this.stick.scale = 0.7;
     this.game.physics.arcade.gravity.y = 1000;
     this.keyboard = this.game.input.keyboard;
     // this.background = this.game.add.graphics(0, 0);
@@ -19,8 +23,8 @@ class PlayState extends Phaser.State {
     // this.background.drawRect(0, 0, this.game.width, this.game.height);
     // this.background = this.game.add.tileSprite(0, 0, this.game.world.width, this.game.world.height, 'background');
     this.area = new Area(this.game, 'area_4');
-    this.reach = this.game.add.graphics(0, 0);
-    this.aim = this.game.add.graphics(0, 0);
+    // this.reach = this.game.add.graphics(0, 0);
+    // this.aim = this.game.add.graphics(0, 0);
     // this.meerkat = new Meerkat(this.game, 320, 300);
     this.arrows = new Arrows(this.game);
     this.player = new Player(this.game, this.area.player.x, this.area.player.y);
@@ -28,72 +32,49 @@ class PlayState extends Phaser.State {
     this.trajectory = new Phaser.Line(this.player.x, this.player.y, this.input.x + this.camera.x, this.input.y + this.camera.y);
     this.game.input.onUp.add(this.shoot, this);
     this.game.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON, 0.1, 0.1);
-    this.chargeBarBackground = this.game.add.graphics(0, 0);
     this.chargeBar = this.game.add.graphics(0, 0);
-    this.chargeBarBackground.fixedToCamera = true;
     this.chargeBar.fixedToCamera = true;
-    if (this.game.device.iOS || this.game.device.android || this.game.device.windowsPhone) {
-      let m = 8;
-      let wbh = 48;
-      let wbw = 66;
-      let jbh = 66;
-      let jbw = 44;
-      this.leftButton = this.game.add.button(m, this.game.height - wbh - m, 'walkButton', null, this, 0, 0, 1);
-      this.leftButton.onInputDown.add(this.walkLeft, this);
-      this.leftButton.onInputUp.add(this.stopWalkLeft, this);
-      this.leftButton.fixedToCamera = true;
-      this.rightButton = this.game.add.button(m + wbw, this.game.height - wbh - m, 'walkButton', null, this, 0, 0, 1);
-      this.rightButton.onInputDown.add(this.walkRight, this);
-      this.rightButton.onInputUp.add(this.stopWalkRight, this);
-      this.rightButton.fixedToCamera = true;
-      this.jumpButton = this.game.add.button(m + jbw, this.game.height - wbh - jbh - m, 'jumpButton', null, this, 0, 0, 1);
-      this.jumpButton.onInputDown.add(this.jump, this);
-      this.jumpButton.onInputUp.add(this.stopJump, this);
-      this.jumpButton.fixedToCamera = true;
-      this.jumpLeftButton = this.game.add.button(m, this.game.height - wbh - jbh - m, 'jumpButton', null, this, 0, 0, 1);
-      this.jumpLeftButton.onInputDown.add(this.jumpLeft, this);
-      this.jumpLeftButton.onInputUp.add(this.stopJumpLeft, this);
-      this.jumpLeftButton.fixedToCamera = true;
-      this.jumpRightButton = this.game.add.button(m + jbw + jbw, this.game.height - wbh - jbh - m, 'jumpButton', null, this, 0, 0, 1);
-      this.jumpRightButton.onInputDown.add(this.jumpRight, this);
-      this.jumpRightButton.onInputUp.add(this.stopJumpRight, this);
-      this.jumpRightButton.fixedToCamera = true;
-    }
+    this.chargeBarBackground = this.game.add.graphics(0, 0);
+    this.chargeBarBackground.fixedToCamera = true;
+    this.chargeBarBackground.beginFill(this.area.barColor, 0.3);
+    this.chargeBarBackground.drawRoundedRect(this.game.width / 2 - 150, 5, 300, 15, 3);
   }
 
   update() {
     this.game.physics.arcade.collide(this.player, this.area.layer);
     // this.game.physics.arcade.collide(this.meerkat, this.area.layer);
     this.game.physics.arcade.collide(this.arrows, this.area.layer);
-    // this.background.x = this.camera.x * 0.6;
     this.trajectory = new Phaser.Line(this.player.x, this.player.y, this.input.x + this.camera.x, this.input.y + this.camera.y);
-    this.reach.clear();
-    this.aim.clear();
     this.chargeBar.clear();
-    this.chargeBarBackground.clear();
-    if (this.player.walkingLeft || this.player.walkingRight || this.player.jumping) {
-      this.UIOver = true;
-    } else {
-      this.UIOver = false;
-    }
-    this.chargeBarBackground.beginFill(this.area.barColor, 0.3);
-    this.chargeBarBackground.drawRoundedRect(this.game.width / 2 - 150, 5, 300, 15, 3)
     this.player.charging = false;
-    if (this.game.input.activePointer.isDown && !this.UIOver && this.player.body.blocked.down) {
+    this.player.walkingLeft = false;
+    this.player.walkingRight = false;
+    this.player.jumping = false;
+    if (this.stick.isDown) {
+      if (this.stick.force < 0.5) {
+        if (Math.abs(this.stick.rotation) > Math.PI / 2) {
+          this.player.walkingLeft = true;
+        } else {
+          this.player.walkingRight = true;
+        }
+      } else {
+        if (Math.abs(this.stick.rotation) > 5 / 6 * Math.PI) {
+          this.player.walkingLeft = true;
+        } else if (Math.abs(this.stick.rotation) < 5 / 6 * Math.PI && Math.abs(this.stick.rotation) > 4 / 6 * Math.PI) {
+          this.player.walkingLeft = true;
+          this.player.jumping = true;
+        } else if (Math.abs(this.stick.rotation) < 4 / 6 * Math.PI && Math.abs(this.stick.rotation) > 2 / 6 * Math.PI) {
+          this.player.jumping = true;
+        } else if (Math.abs(this.stick.rotation) < 2 / 6 * Math.PI && Math.abs(this.stick.rotation) > 1 / 6 * Math.PI) {
+          this.player.walkingRight = true;
+          this.player.jumping = true;
+        } else if (Math.abs(this.stick.rotation) < 1 / 6 * Math.PI) {
+          this.player.walkingRight = true;
+        }
+      }
+    } else if (this.game.input.activePointer.isDown && this.player.body.blocked.down) {
       this.arrows.charge();
       this.player.charge(this.trajectory);
-
-      // let alpha = (this.arrows.range - this.arrows.minRange) / (this.arrows.maxRange - this.arrows.minRange)
-      let alpha = 1
-      this.reach.beginFill(0x000000, alpha * 0.1)
-      this.reach.lineStyle(1, 0x000000, alpha);
-      // this.reach.arc(this.player.x, this.player.y, this.arrows.range, this.trajectory.angle + 0.2, this.trajectory.angle - 0.2, true, 15);
-
-      this.rangedTrajectory = new Phaser.Line;
-      this.rangedTrajectory.fromAngle(this.player.x, this.player.y, this.trajectory.angle, this.arrows.range);
-      // this.aim.lineStyle(1, 0xFFFFFF);
-      this.aim.moveTo(this.player.x, this.player.y);
-      this.aim.quadraticCurveTo(this.input.x + this.camera.x, this.input.y + this.camera.y, this.input.x + this.camera.x, this.player.y);
 
       this.chargeBar.beginFill(this.area.barColor);
       this.chargeBar.drawRoundedRect(this.game.width / 2 - 150, 5, this.arrows.chargeCapacity * 300, 15, 3)
@@ -128,8 +109,8 @@ class PlayState extends Phaser.State {
     }.bind(this));
   }
 
-  render() {
-    // this.game.debug.geom(this.trajectory);
+  debug() {
+    this.game.debug.body(this.player);
   }
 
   shoot() {
@@ -137,18 +118,6 @@ class PlayState extends Phaser.State {
       this.arrows.shoot(this.trajectory);
     }
   }
-
-  walkLeft() { this.player.walkingLeft = true; }
-  stopWalkLeft() { this.player.walkingLeft = false; }
-  walkRight() { this.player.walkingRight = true; }
-  stopWalkRight() { this.player.walkingRight = false; }
-  jump() { this.player.jumping = true; }
-  stopJump() { this.player.jumping = false; }
-  jumpLeft() { this.player.jumping = true; this.player.walkingLeft = true; }
-  stopJumpLeft() { this.player.jumping = false; this.player.walkingLeft = false; }
-  jumpRight() { this.player.jumping = true; this.player.walkingRight = true; }
-  stopJumpRight() { this.player.jumping = false; this.player.walkingRight = false; }
-
 }
 
 export default PlayState;
