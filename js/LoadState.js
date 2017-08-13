@@ -14,6 +14,7 @@ class LoadState extends Phaser.State {
     this.game.load.tilemap('area_2', '/assets/tilemaps/area_2.csv', null, Phaser.Tilemap.CSV);
     this.game.load.tilemap('area_3', '/assets/tilemaps/area_3.csv', null, Phaser.Tilemap.CSV);
     this.game.load.tilemap('area_4', '/assets/tilemaps/area_4.csv', null, Phaser.Tilemap.CSV);
+    this.game.load.tilemap('area_5', '/assets/tilemaps/area_5.csv', null, Phaser.Tilemap.CSV);
     this.load.atlas('generic', '/virtual_joystick/skins/generic-joystick.png', '/virtual_joystick/skins/generic-joystick.json');
   }
 

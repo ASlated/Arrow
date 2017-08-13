@@ -12,9 +12,6 @@ class Player extends Phaser.Sprite {
 
     this.chargeFrames = {'10': 0, '12': -45, '14': 45, '16': 180, '18': -135, '20': 135};
 
-    this.walkingLeft = false;
-    this.walkingRight = false;
-
     this.speed = 150;
     this.jumpHeight = 200;
     this.jumpLength = 15;

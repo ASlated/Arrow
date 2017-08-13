@@ -12,6 +12,7 @@ class Area {
     map.addTilesetImage(this.area.tileset + '_area');
     map.setCollisionByExclusion(this.tileset.setCollisionByExclusion);
     this.layer = map.createLayer(0);
+    this.layer.renderSettings.enableScrollDelta = false;
     this.layer.setScale(2, 2);
     this.layer.resizeWorld();
     this.player = this.area.player;

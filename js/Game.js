@@ -10,6 +10,7 @@ class Game extends Phaser.Game {
       antialias: false,
       resolution: 2,
       parent: 'game',
+      renderer: Phaser.Canvas
     };
     super(config);
 

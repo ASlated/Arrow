@@ -38,21 +38,36 @@
   "area_4": {
     "tilemap": "area_4",
     "scenery": [
-      {"key": "tree", "x": 3, "y": 14},
-      {"key": "tree", "x": 3, "y": 3},
-      {"key": "tree", "x": 14, "y": 12},
-      {"key": "tree", "x": 22, "y": 4},
-      {"key": "tree", "x": 28, "y": 4},
-      {"key": "tree", "x": 35, "y": 11},
-      {"key": "tree", "x": 41, "y": 14},
-      {"key": "tree", "x": 48, "y": 14},
-      {"key": "tree", "x": 59, "y": 14}
+      {"key": "tree", "x": 3, "y": 10},
+      {"key": "tree", "x": 5, "y": 0},
+      {"key": "tree", "x": 14, "y": 8},
+      {"key": "tree", "x": 22, "y": 0},
+      {"key": "tree", "x": 28, "y": 0},
+      {"key": "tree", "x": 35, "y": 7},
+      {"key": "tree", "x": 41, "y": 10}
     ],
     "tileset": "snow",
     "entities": [],
     "player": {
       "x": 212,
-      "y": 530
+      "y": 380
+    }
+  },
+
+  "area_5": {
+    "tilemap": "area_5",
+    "scenery": [
+      {"key": "tree", "x": 1, "y": 5},
+      {"key": "tree", "x": 8, "y": 5},
+      {"key": "tree", "x": 31, "y": 5},
+      {"key": "tree", "x": 45, "y": 0},
+      {"key": "tree", "x": 22, "y": 1}
+    ],
+    "tileset": "snow",
+    "entities": [],
+    "player": {
+      "x": 32,
+      "y": 414
     }
   }
 }
