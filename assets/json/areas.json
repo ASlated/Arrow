@@ -48,9 +48,13 @@
     ],
     "tileset": "snow",
     "entities": [],
-    "player": {
+    "start": {
       "x": 212,
-      "y": 380
+      "y": 576
+    },
+    "end": {
+      "x": 1600,
+      "y": 576
     }
   },
 
@@ -65,7 +69,11 @@
     ],
     "tileset": "snow",
     "entities": [],
-    "player": {
+    "start": {
+      "x": 0,
+      "y": 414
+    },
+    "end": {
       "x": 32,
       "y": 414
     }

@@ -6,9 +6,7 @@ import VirtualJoystick from './phaser-virtual-joystick.exec.js';
 
 class PlayState extends Phaser.State {
   init(options) {
-    this.options = {};
-    // this.game.load.tilemap(options.area, '/assets/tilemaps/' + options.area);
-    this.options.area = options.area;
+    this.options = options;
   }
 
   create() {
@@ -25,9 +23,15 @@ class PlayState extends Phaser.State {
     this.area = new Area(this.game, this.options.area);
     // this.meerkat = new Meerkat(this.game, 320, 300);
     this.arrows = new Arrows(this.game);
-    this.player = new Player(this.game, this.area.player.x, this.area.player.y);
-    this.player.walkingRight = true;
-    this.player.jumping = true;
+
+    if (this.options.location == 'start') {
+      this.player = new Player(this.game, this.area.start.x, this.area.start.y);
+      this.player.facing = 'right';
+    } else if (this.options.location == 'end') {
+      this.player = new Player(this.game, this.area.end.x, this.area.end.y);
+      this.player.facing = 'left';
+    }
+
     this.area.drawScenery();
     this.trajectory = new Phaser.Line(this.player.x, this.player.y, this.input.x + this.camera.x, this.input.y + this.camera.y);
     this.game.input.onUp.add(this.shoot, this);
@@ -109,14 +113,18 @@ class PlayState extends Phaser.State {
     }.bind(this));
 
     if (this.player.x > this.game.world.width) {
-      this.controller.destroy();
+      if (this.controller) { this.controller.destroy(); }
       this.game.level++;
-      this.game.state.start('play', true, false, {area: this.game.levels[this.game.level]});
+      this.game.state.start('play', true, false, {area: this.game.levels[this.game.level], location: 'start'});
+    } else if (this.player.x < 0) {
+      if (this.controller) { this.controller.destroy(); }
+      this.game.level--;
+      this.game.state.start('play', true, false, {area: this.game.levels[this.game.level], location: 'end'});
     }
   }
 
   render() {
-    this.game.debug.text(this.game.time.fps, 20, this.game.height - 20, "#00ff00");
+    // this.game.debug.text(this.game.time.fps, 20, this.game.height - 20, "#00ff00");
   }
 
   shoot() {

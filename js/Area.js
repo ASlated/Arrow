@@ -15,7 +15,8 @@ class Area {
     this.layer.renderSettings.enableScrollDelta = false;
     this.layer.setScale(2, 2);
     this.layer.resizeWorld();
-    this.player = this.area.player;
+    this.start = this.area.start;
+    this.end = this.area.end;
   }
 
   preload() {

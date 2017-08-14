@@ -8,6 +8,8 @@ class LoadState extends Phaser.State {
     this.game.load.image('grass_area', '/assets/tilesets/grass.png');
     this.game.load.image('snow_area', '/assets/tilesets/snow.png');
     this.game.load.image('tree', '/assets/scenery/tree.png');
+    this.game.load.image('world', '/assets/sprites/world.png');
+    this.game.load.image('world_2', '/assets/sprites/world_2.png');
     // this.game.load.image('snow', '/assets/sprites/snow.png');
     // this.game.load.image('background', '/assets/sprites/background.jpg');
     this.game.load.tilemap('area_1', '/assets/tilemaps/area_1.csv', null, Phaser.Tilemap.CSV);
@@ -19,7 +21,8 @@ class LoadState extends Phaser.State {
   }
 
   create() {
-    this.game.state.start('play', true, false, {area: 'area_4'});
+    this.game.state.start('play', true, false, {area: 'area_4', location: 'start'});
+    // this.game.state.start('map');
   }
 }
 
