@@ -1,13 +1,11 @@
-class Meerkat extends Phaser.Sprite {
+import Enemy from './Enemy.js';
+
+class Meerkat extends Enemy {
   constructor(game, x, y) {
-    super(game, x, y, 'meerkat');
+    super(game, x, y, 'meerkat', 10);
     this.game = game;
-    this.game.physics.enable(this, Phaser.Physics.ARCADE);
     this.body.setSize(6, 16, 0);
     this.facing = 'right';
-    this.scale.setTo(2, 2);
-    this.anchor.setTo(0.5, 0.5);
-    this.body.collideWorldBounds = true;
 
     this.jumpDistance = 150;
     this.jumpHeight = 350;
@@ -24,8 +22,6 @@ class Meerkat extends Phaser.Sprite {
       fall_left: 2,
       fall_right: 5,
     };
-
-    this.game.add.existing(this);
   }
 
   jump() {
@@ -52,6 +48,25 @@ class Meerkat extends Phaser.Sprite {
       this.frame = this.frames['jump_' + this.facing];
     } else {
       this.frame = this.frames['fall_' + this.facing];
+    }
+  }
+
+  action(playerX, playerY) {
+    if (this.body.blocked.down) {
+      this.halt();
+      this.jumpTimer++;
+      if (this.jumpTimer > this.jumpRate) {
+        this.jumpTimer = 0;
+        this.jump();
+      }
+    } else {
+      this.air();
+    }
+
+    if (this.x > playerX) {
+      this.facing = 'left';
+    } else {
+      this.facing = 'right';
     }
   }
 }

@@ -62,19 +62,6 @@ class Area {
       }.bind(this));
     }
   }
-
-  asyncLoad(key) {
-    // this.game.load.tilemap(key, '/assets/tilemaps/' + key + '.csv');
-    // this.game.load.start();
-    // let index = window.setInterval(function() {
-    //   if (this.game.load.isLoading {
-    //     return;
-    //   }
-    //   window.clearInterval(index);
-    // },
-    // 1000);
-  }
-
 }
 
 export default Area;

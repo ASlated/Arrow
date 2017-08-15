@@ -1,10 +1,11 @@
 const keyboards = require('../assets/json/keyboards.json');
 
 class Player extends Phaser.Sprite {
-  constructor(game, x, y) {
+  constructor(game, x, y, tint = 0xFFFFFF) {
     super(game, x, y, 'player');
     this.game = game;
     this.game.physics.enable(this, Phaser.Physics.ARCADE);
+    this.tint = tint;
     this.body.setSize(10, 15, -1);
     this.facing = 'right';
     this.scale.setTo(2, 2);

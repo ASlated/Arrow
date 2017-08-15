@@ -46,8 +46,12 @@
       {"key": "tree", "x": 35, "y": 7},
       {"key": "tree", "x": 41, "y": 10}
     ],
+    "entities": [
+      {"key": "meerkat", "x": 32, "y": 384},
+      {"key": "meerkat", "x": 480, "y": 224},
+      {"key": "meerkat", "x": 610, "y": 448}
+    ],
     "tileset": "snow",
-    "entities": [],
     "start": {
       "x": 212,
       "y": 576
@@ -67,10 +71,10 @@
       {"key": "tree", "x": 45, "y": 0},
       {"key": "tree", "x": 22, "y": 1}
     ],
-    "tileset": "snow",
     "entities": [],
+    "tileset": "snow",
     "start": {
-      "x": 0,
+      "x": 64,
       "y": 414
     },
     "end": {

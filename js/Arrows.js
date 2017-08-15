@@ -4,7 +4,7 @@ class Arrows extends Phaser.Group {
     this.game = game;
     this.minRange = 100;
     this.maxRange = 250;
-    this.rangeIncrease = 2;
+    this.rangeIncrease = 4;
     this.range = this.minRange;
 
     this.frames = [-0.5, -0.75, -1, 0.75, 0.5, 0.25, 0, -0.25];

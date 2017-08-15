@@ -1,7 +1,7 @@
 class LoadState extends Phaser.State {
   preload() {
     this.game.load.spritesheet('player', '/assets/sprites/player.png', 16, 15);
-    // this.game.load.spritesheet('meerkat', '/assets/sprites/meerkat.png', 18, 16);
+    this.game.load.spritesheet('meerkat', '/assets/sprites/meerkat.png', 18, 16);
     this.game.load.spritesheet('arrow', '/assets/sprites/arrow.png', 6, 6);
     this.game.load.spritesheet('walkButton', '/assets/sprites/walkButton.png', 66, 48);
     this.game.load.spritesheet('jumpButton', '/assets/sprites/jumpButton.png', 44, 66);

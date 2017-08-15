@@ -21,7 +21,10 @@ class PlayState extends Phaser.State {
     this.game.physics.arcade.gravity.y = 1000;
     this.keyboard = this.game.input.keyboard;
     this.area = new Area(this.game, this.options.area);
-    // this.meerkat = new Meerkat(this.game, 320, 300);
+    this.enemies = this.game.add.group(this.game.world);
+    this.meerkats = this.game.add.group(this.enemies);
+    this.area.area.entities.forEach(function(e){this.meerkats.add(new Meerkat(this.game, e.x, e.y))}, this);
+
     this.arrows = new Arrows(this.game);
 
     if (this.options.location == 'start') {
@@ -35,6 +38,7 @@ class PlayState extends Phaser.State {
     this.area.drawScenery();
     this.trajectory = new Phaser.Line(this.player.x, this.player.y, this.input.x + this.camera.x, this.input.y + this.camera.y);
     this.game.input.onUp.add(this.shoot, this);
+    this.game.input.onDown.add(function(){console.log((this.game.input.x + this.game.camera.x) + ', ' + (this.game.input.y + this.game.camera.y))}, this);
     this.game.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON, 0.1, 0.1);
     this.chargeBar = this.game.add.graphics(0, 0);
     this.chargeBar.fixedToCamera = true;
@@ -47,7 +51,9 @@ class PlayState extends Phaser.State {
   update() {
     this.game.physics.arcade.collide(this.player, this.area.layer);
     this.game.physics.arcade.collide(this.arrows, this.area.layer);
-    // this.game.physics.arcade.collide(this.meerkat, this.area.layer);
+    this.game.physics.arcade.collide(this.meerkats, this.area.layer);
+    // this.game.physics.arcade.collide(this.meerkats, this.arrows);
+    this.game.physics.arcade.overlap(this.meerkats, this.arrows, this.arrowCollideEnemy, null, this);
     this.trajectory = new Phaser.Line(this.player.x, this.player.y, this.input.x + this.camera.x, this.input.y + this.camera.y);
     this.chargeBar.clear();
     this.player.charging = false;
@@ -85,29 +91,20 @@ class PlayState extends Phaser.State {
     }
     this.player.movement(this.keyboard);
 
-    // if (this.meerkat.body.blocked.down) {
-    //   this.meerkat.halt();
-    //   this.meerkat.jumpTimer++;
-    //   if (this.meerkat.jumpTimer > this.meerkat.jumpRate) {
-    //     this.meerkat.jumpTimer = 0;
-    //     this.meerkat.jump();
-    //   }
-    // } else {
-    //   this.meerkat.air();
-    // }
-
-    // if (this.meerkat.x > this.player.x) {
-    //   this.meerkat.facing = 'left';
-    // } else {
-    //   this.meerkat.facing = 'right';
-    // }
+    this.enemies.forEach(function(g){g.forEach(function(e){
+      if (e.enabled) {
+        e.action(this.player.x, this.player.y);
+        if (e.health <= 0) {
+          e.die(g);
+        }
+      }
+    }, this)}, this);
 
     this.arrows.children.forEach(function (arrow) {
       if (arrow.body.blocked.down) {
         arrow.body.velocity.setTo(0, 0);
       } else {
         let frame = this.arrows.getFrame(Math.atan2(arrow.body.velocity.x, arrow.body.velocity.y));
-        // console.log(frame);
         arrow.frame = frame;
       }
     }.bind(this));
@@ -130,6 +127,15 @@ class PlayState extends Phaser.State {
   shoot() {
     if (!this.UIOver && this.player.charging) {
       this.arrows.shoot(this.trajectory);
+    }
+  }
+
+  arrowCollideEnemy(meerkat, arrow) {
+    if (!meerkat.invincible && !arrow.body.blocked.down) {
+      meerkat.health -= 10;
+      meerkat.invincible = true;
+      meerkat.tint = 0x999999;
+      this.game.time.events.add(1000, meerkat.vulnerable, meerkat);
     }
   }
 }
