@@ -5,8 +5,10 @@ class BootState extends Phaser.State {
     this.game.renderer.renderSession.roundPixels = true;
     this.game.keyboardLayout = 'dvorak';
     this.game.physics.startSystem(Phaser.Physics.ARCADE);
-    if (this.game.device.iOS) {
+    const SAFARI_SCALE = 0.571428571428571;
+    if (this.game.device.safari) {
       this.game.scale.scaleMode = Phaser.ScaleManager.USER_SCALE;
+      this.game.scale.setUserScale(SAFARI_SCALE, SAFARI_SCALE);
     }
     this.game.scale.fullScreenScaleMode = Phaser.ScaleManager.SHOW_ALL;
     this.goFull = this.goFull.bind(this);
@@ -15,13 +17,14 @@ class BootState extends Phaser.State {
   }
 
   goFull() {
-    if (this.game.device.iOS) {
-      alert('Unfortunately, iOS Safari does not support the full screen API at this time.');
-    }
-    if (this.game.scale.isFullScreen) {
-        this.game.scale.stopFullScreen();
+    if (this.game.device.iOS || this.game.device.safari) {
+      alert('Unfortunately, your browser is not currently functioning with fullscreen mode correctly.');
     } else {
+      if (this.game.scale.isFullScreen) {
+        this.game.scale.stopFullScreen();
+      } else {
         this.game.scale.startFullScreen(false);
+      }
     }
   }
 

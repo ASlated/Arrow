@@ -13,7 +13,7 @@ class PlayState extends Phaser.State {
     this.game.time.advancedTiming = true;
     if (this.game.device.iOS || this.game.device.android || this.game.device.windowsPhone) {
       this.controller = this.game.plugins.add(Phaser.VirtualJoystick);
-      this.stick = this.controller.addStick(96, 96, 96, 'generic');
+      this.stick = this.controller.addStick(96, this.game.height - 96, 96, 'generic');
       this.stick.scale = 0.7;
     } else {
       this.stick = {isDown: false};
@@ -82,7 +82,7 @@ class PlayState extends Phaser.State {
           this.player.walkingRight = true;
         }
       }
-    } else if (this.game.input.activePointer.isDown && this.player.body.blocked.down) {
+    } else if (this.game.input.activePointer.isDown && this.player.body.blocked.down && this.player.body.velocity.isZero()) {
       this.arrows.charge();
       this.player.charge(this.trajectory);
 
@@ -125,7 +125,7 @@ class PlayState extends Phaser.State {
   }
 
   shoot() {
-    if (!this.UIOver && this.player.charging) {
+    if (!this.UIOver && this.player.charging && this.player.body.velocity.isZero()) {
       this.arrows.shoot(this.trajectory);
     }
   }

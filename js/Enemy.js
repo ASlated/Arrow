@@ -31,6 +31,8 @@ class Enemy extends Phaser.Sprite {
     colorTween.chain(alphaTween);
     colorTween.start();
     this.game.time.events.add(5000, function(){group.add(this, this.startX, this.startY)}, this);
+    let sound = this.game.add.audio('enemy_die');
+    sound.play('', 0, 0.7);
   }
 }
 

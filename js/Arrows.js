@@ -20,6 +20,8 @@ class Arrows extends Phaser.Group {
     this.game.physics.arcade.velocityFromRotation(arrow.internalAngle, this.range * 3, arrow.body.velocity);
     this.game.time.events.add(3000, this.destroyArrow, this)
     this.range = this.minRange;
+    let sound = this.game.add.audio('shoot');
+    sound.play('', 0, 0.5);
   }
 
   closest(num, arr) {

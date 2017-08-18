@@ -57,6 +57,8 @@ class Player extends Phaser.Sprite {
 
   jump() {
     if (this.body.blocked.down) {
+      let sound = this.game.add.audio('jump');
+      // sound.play('', 0, 0.5);
       this.jumpTimer = 0;
       this.body.velocity.y = -this.jumpHeight;
     } else if (this.jumpTimer < this.jumpLength) {
