@@ -1,6 +1,6 @@
 class BootState extends Phaser.State {
   create() {
-    this.game.levels = ['area_4', 'area_5'];
+    this.game.levels = ['area_4', 'area_6', 'area_5'];
     this.game.level = 0;
     this.game.renderer.renderSession.roundPixels = true;
     this.game.keyboardLayout = 'dvorak';

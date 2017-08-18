@@ -19,6 +19,7 @@ class LoadState extends Phaser.State {
     this.game.load.tilemap('area_3', '/assets/tilemaps/area_3.csv', null, Phaser.Tilemap.CSV);
     this.game.load.tilemap('area_4', '/assets/tilemaps/area_4.csv', null, Phaser.Tilemap.CSV);
     this.game.load.tilemap('area_5', '/assets/tilemaps/area_5.csv', null, Phaser.Tilemap.CSV);
+    this.game.load.tilemap('area_6', '/assets/tilemaps/area_6.csv', null, Phaser.Tilemap.CSV);
     this.game.load.audio('shoot', '/assets/sounds/shoot.wav');
     this.game.load.audio('jump', '/assets/sounds/jump.wav');
     this.game.load.audio('start', '/assets/sounds/start.wav');

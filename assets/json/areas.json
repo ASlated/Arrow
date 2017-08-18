@@ -47,9 +47,9 @@
       {"key": "tree", "x": 41, "y": 10}
     ],
     "entities": [
-      {"key": "meerkat", "x": 32, "y": 384},
-      {"key": "meerkat", "x": 480, "y": 224},
-      {"key": "meerkat", "x": 610, "y": 448}
+      {"key": "meerkat", "x": 1, "y": 12},
+      {"key": "meerkat", "x": 15, "y": 7},
+      {"key": "meerkat", "x": 19, "y": 14}
     ],
     "tileset": "snow",
     "start": {
@@ -79,6 +79,38 @@
     },
     "end": {
       "x": 32,
+      "y": 414
+    }
+  },
+
+  "area_6": {
+    "tilemap": "area_6",
+    "scenery": [
+      {"key": "tree", "x": 3, "y": 4},
+      {"key": "tree", "x": 10, "y": 1},
+      {"key": "tree", "x": 23, "y": 4},
+      {"key": "tree", "x": 34, "y": 3},
+      {"key": "tree", "x": 44, "y": 1},
+      {"key": "tree", "x": 54, "y": 5}
+    ],
+    "entities": [
+      {"key": "meerkat", "x": 1, "y": 3},
+      {"key": "meerkat", "x": 7, "y": 5},
+      {"key": "meerkat", "x": 17, "y": 10},
+      {"key": "meerkat", "x": 22, "y": 1},
+      {"key": "meerkat", "x": 30, "y": 5},
+      {"key": "meerkat", "x": 32, "y": 12},
+      {"key": "meerkat", "x": 25, "y": 11},
+      {"key": "meerkat", "x": 37, "y": 5},
+      {"key": "meerkat", "x": 46, "y": 8}
+    ],
+    "tileset": "snow",
+    "start": {
+      "x": 32,
+      "y": 414
+    },
+    "end": {
+      "x": 1856,
       "y": 414
     }
   }

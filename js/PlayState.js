@@ -23,7 +23,7 @@ class PlayState extends Phaser.State {
     this.area = new Area(this.game, this.options.area);
     this.enemies = this.game.add.group(this.game.world);
     this.meerkats = this.game.add.group(this.enemies);
-    this.area.area.entities.forEach(function(e){this.meerkats.add(new Meerkat(this.game, e.x, e.y))}, this);
+    this.area.area.entities.forEach(function(e){this.meerkats.add(new Meerkat(this.game, e.x * 32, e.y * 32))}, this);
 
     this.arrows = new Arrows(this.game);
 
@@ -93,7 +93,7 @@ class PlayState extends Phaser.State {
 
     this.enemies.forEach(function(g){g.forEach(function(e){
       if (e.enabled) {
-        e.action(this.player.x, this.player.y);
+        e.action(this.player);
         if (e.health <= 0) {
           e.die(g);
         }
