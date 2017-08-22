@@ -1,15 +1,22 @@
 const keyboards = require('../assets/json/keyboards.json');
 
 class Player extends Phaser.Sprite {
-  constructor(game, x, y, tint = 0xFFFFFF) {
+  constructor(game, x, y, health = 0) {
     super(game, x, y, 'player');
     this.game = game;
     this.game.physics.enable(this, Phaser.Physics.ARCADE);
-    this.tint = tint;
     this.body.setSize(10, 15, -1);
     this.facing = 'right';
     this.scale.setTo(2, 2);
     this.anchor.setTo(0.5, 0.5)
+    this.enabled = true;
+
+    this.maxHeath = 10;
+    if (!health) {
+      this.health = this.maxHeath
+    } else {
+      this.health = health
+    }
 
     this.chargeFrames = {'10': 0, '12': -45, '14': 45, '16': 180, '18': -135, '20': 135};
 
@@ -118,6 +125,11 @@ class Player extends Phaser.Sprite {
 
 
   movement(keyboard) {
+    if (this.flashing) {
+      this.flash();
+    } else {
+      this.alpha = 1;
+    }
     if (!this.charging) {
       if (keyboard.isDown(Phaser.Keyboard[keyboards[this.game.keyboardLayout].right]) || this.walkingRight) {
         this.walk("right");
@@ -135,6 +147,28 @@ class Player extends Phaser.Sprite {
         this.air();
       }
     }
+  }
+
+  damage(amount) {
+    this.health -= amount;
+    console.log(this.health);
+    if (this.health <= 0) {
+      // this.game.paused = true;
+      const TWEEN_LENGTH = 500;
+      let emitter = this.game.add.emitter(this.x, this.y, 10);
+      emitter.makeParticles('player_remain');
+      emitter.gravity = 200;
+      this.game.time.events.add(TWEEN_LENGTH * 2, function () {this.game.state.start('gameOver')}, this);
+      this.game.time.events.add(TWEEN_LENGTH, function () {emitter.explode(1000, 10)});
+      let colorTween = this.game.add.tween(this).to({tint: 0x000000}, TWEEN_LENGTH);
+      colorTween.start();
+    }
+    this.enabled = false;
+    this.flashing = true;
+    this.game.time.events.add(2000, function () {
+      this.enabled = true;
+      this.flashing = false;
+    }, this);
   }
 }
 

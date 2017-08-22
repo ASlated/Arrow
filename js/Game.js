@@ -3,6 +3,7 @@ import LoadState from './LoadState.js';
 import PlayState from './PlayState.js';
 import MapState from './MapState.js';
 import StartState from './StartState.js';
+import GameOverState from './GameOverState.js';
 
 class Game extends Phaser.Game {
   constructor() {
@@ -21,6 +22,7 @@ class Game extends Phaser.Game {
     this.state.add('play', new PlayState(this));
     this.state.add('map', new MapState(this));
     this.state.add('start', new StartState(this));
+    this.state.add('gameOver', new GameOverState(this));
 
     this.state.start('boot');
   }

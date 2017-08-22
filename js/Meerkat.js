@@ -7,6 +7,8 @@ class Meerkat extends Enemy {
     this.body.setSize(6, 16, 0);
     this.facing = 'right';
 
+    this.damage = 10;
+
     this.jumpDistance = 150;
     this.jumpHeight = 350;
     this.jumpRate = 40;
@@ -51,7 +53,10 @@ class Meerkat extends Enemy {
     }
   }
 
-  action(playerX, playerY) {
+  action(player) {
+    // console.log(this.game.physics.arcade.overlap(player, this));
+    this.game.physics.arcade.overlap(player, this, function () {player.damage(this.damage)}, function () {return player.enabled}, this);
+
     if (this.body.blocked.down) {
       this.halt();
       this.jumpTimer++;
@@ -63,7 +68,7 @@ class Meerkat extends Enemy {
       this.air();
     }
 
-    if (this.x > playerX) {
+    if (this.x > player.x) {
       this.facing = 'left';
     } else {
       this.facing = 'right';

@@ -37,6 +37,8 @@ class PlayState extends Phaser.State {
 
     this.area.drawScenery();
     this.trajectory = new Phaser.Line(this.player.x, this.player.y, this.input.x + this.camera.x, this.input.y + this.camera.y);
+    // this.game.input.onUp.add(function () {this.game.paused = false}, this);
+    // this.game.input.onDown.add(function () {this.game.paused = true}, this);
     this.game.input.onUp.add(this.shoot, this);
     this.game.input.onDown.add(function(){console.log((this.game.input.x + this.game.camera.x) + ', ' + (this.game.input.y + this.game.camera.y))}, this);
     this.game.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON, 0.1, 0.1);
