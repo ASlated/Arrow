@@ -18,7 +18,6 @@ class Arrows extends Phaser.Group {
     this.add(arrow);
     arrow.body.gravity.y = 20;
     this.game.physics.arcade.velocityFromRotation(arrow.internalAngle, this.range * 3, arrow.body.velocity);
-    this.game.time.events.add(3000, this.destroyArrow, this)
     this.range = this.minRange;
     let sound = this.game.add.audio('shoot');
     sound.play('', 0, 0.5);
@@ -38,20 +37,19 @@ class Arrows extends Phaser.Group {
   }
 
   charge() {
-    if (this.range < this.maxRange) {
+    if (this.range + this.rangeIncrease <= this.maxRange) {
       this.range += this.rangeIncrease;
+    } else {
+      this.range = this.maxRange;
     }
-    this.chargeCapacity = (this.range - this.minRange) / (this.maxRange - this.minRange)
+    this.chargeCapacity = (this.range - this.minRange) / (this.maxRange - this.minRange);
   }
 
   arrow(x, y, frame) {
     let arrow = new Phaser.Sprite(this.game, x, y, 'arrow', 0);
+    arrow.lifespan = 3000;
     arrow.scale.setTo(2, 2);
     return arrow;
-  }
-
-  destroyArrow(index = 0) {
-    this.removeChildAt(index);
   }
 
   getFrame(angle) {

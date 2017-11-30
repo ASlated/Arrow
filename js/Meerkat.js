@@ -2,12 +2,11 @@ import Enemy from './Enemy.js';
 
 class Meerkat extends Enemy {
   constructor(game, x, y) {
-    super(game, x, y, 'meerkat', 10);
-    this.game = game;
+    super(game, x, y, 'meerkat', 20);
     this.body.setSize(6, 16, 0);
     this.facing = 'right';
 
-    this.damage = 10;
+    this.attack = 10;
 
     this.jumpDistance = 150;
     this.jumpHeight = 350;
@@ -55,7 +54,7 @@ class Meerkat extends Enemy {
 
   action(player) {
     // console.log(this.game.physics.arcade.overlap(player, this));
-    this.game.physics.arcade.overlap(player, this, function () {player.damage(this.damage)}, function () {return player.enabled}, this);
+    this.game.physics.arcade.overlap(player, this, function () {player.damage(this.attack)}, function () {return player.enabled}, this);
 
     if (this.body.blocked.down) {
       this.halt();

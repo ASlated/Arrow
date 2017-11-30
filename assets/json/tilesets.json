@@ -4,7 +4,7 @@
     "setCollisionByExclusion": [3]
   },
   "grass": {
-    "color": "94C4FF",
+    "color": "05114c",
     "setCollisionByExclusion": [12, 13, 20]
   }
 }

@@ -27,6 +27,7 @@ class LoadState extends Phaser.State {
     this.game.load.audio('shoot', '/assets/sounds/shoot.wav');
     this.game.load.audio('jump', '/assets/sounds/jump.wav');
     this.game.load.audio('start', '/assets/sounds/start.wav');
+    this.game.load.audio('enemy_hurt', '/assets/sounds/enemy_hurt.wav');
     this.game.load.audio('enemy_die', '/assets/sounds/enemy_die.wav');
     this.game.load.audio('game_over', '/assets/sounds/game_over.wav');
     this.game.load.audio('holusi1', '/assets/music/Holusi1.mp3');
@@ -39,8 +40,8 @@ class LoadState extends Phaser.State {
 
   create() {
     // this.game.state.start('play', true, false, {area: 'area_4', location: 'start'});
-    this.game.state.start('map');
-    // this.game.state.start('start');
+    // this.game.state.start('map');
+    this.game.state.start('start');
   }
 }
 

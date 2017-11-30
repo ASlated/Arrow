@@ -23,7 +23,7 @@ class StartState extends Phaser.State {
       // this.song.addMarker('music', 1.8, 14.8);
       this.song.addMarker('music', 0, 57.05);
       this.song.play('music', 50, 0.4, true);
-      this.game.state.start('play', true, false, {area: 'area_4', location: 'start'});
+      this.game.state.start('play', true, false, {area: this.game.levels[this.game.level], location: 'start'});
       // this.game.state.start('map');
     }, this);
   }

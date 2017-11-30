@@ -23,6 +23,13 @@ class Enemy extends Phaser.Sprite {
     this.invincible = false;
   }
 
+  damage(amount) {
+    this.health -= amount;
+    if (this.health > 0) {
+      this.game.add.audio('enemy_hurt').play('', 0, 0.7);
+    }
+  }
+
   die(group) {
     this.enabled = false;
     this.tint = 0xFFFFFF;

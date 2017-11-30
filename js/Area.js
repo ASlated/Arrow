@@ -7,7 +7,8 @@ class Area {
     this.area = areas[area];
     this.tileset = tilesets[this.area.tileset];
     this.game.stage.backgroundColor = '#' + this.tileset.color;
-    this.barColor = parseInt(this.invertHex(this.tileset.color), 16);
+    // this.barColor = parseInt(this.invertHex(this.tileset.color), 16);
+    this.barColor = 0x00FF00
     let map = this.game.add.tilemap(this.area.tilemap, 16, 16);
     map.addTilesetImage(this.area.tileset + '_area');
     map.setCollisionByExclusion(this.tileset.setCollisionByExclusion);
@@ -15,6 +16,15 @@ class Area {
     this.layer.renderSettings.enableScrollDelta = false;
     this.layer.setScale(2, 2);
     this.layer.resizeWorld();
+    this.layer.z = 0
+    if (this.tileset.filterColor) {
+      let filter = this.game.add.graphics(0, 0);
+      filter.fixedToCamera = true;
+      filter.z = 5
+      // filter.beginFill(this.tileset.filterColor, 0.4);
+      this.layer.tint = 0xFFFFFF;
+      filter.drawRect(0, 0, this.game.width, this.game.height)
+    }
     this.start = this.area.start;
     this.end = this.area.end;
   }
@@ -58,7 +68,7 @@ class Area {
   drawScenery() {
     if (this.area.scenery) {
       this.area.scenery.forEach(function(element) {
-        this.game.add.sprite(element.x * 32, element.y * 32, element.key).scale.setTo(2, 2);
+        // this.game.add.image(element.x * 32, element.y * 32, element.key).scale.setTo(2, 2);
       }.bind(this));
     }
   }

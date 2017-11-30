@@ -75,6 +75,15 @@ class MapState extends Phaser.State {
 
     this.game.world.swap(this.textGroup, this.circles);
 
+    this.carbonBackground = this.game.add.graphics(this.map.width, 0);
+    let stops = this.game.height / 4
+    for (var i = 0; i < stops; i++) {
+      let c = Phaser.Color.interpolateColor(0x1f1f1f, 0x000000, stops, i);
+      console.log((c + 0xFFFFFF).toString(16));
+      this.carbonBackground.beginFill(c + 0xFFFFFF);
+      this.carbonBackground.drawRect(this.map.width, i * 4, this.game.width - this.map.width, this.game.height, c + 0xFFFFFF);
+    }
+
     this.carbon = this.game.add.tileSprite(this.map.width, 0, this.game.width - this.map.width, this.game.height, 'carbon');
 
   }
@@ -93,6 +102,10 @@ class MapState extends Phaser.State {
     if (this.active) {
       this.names[this.active].visible = true;
     }
+  }
+
+  render() {
+
   }
 }
 

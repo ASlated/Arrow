@@ -19,21 +19,22 @@ class PlayState extends Phaser.State {
       this.stick = {isDown: false};
     }
     this.game.physics.arcade.gravity.y = 1000;
-    this.keyboard = this.game.input.keyboard;
     this.area = new Area(this.game, this.options.area);
     this.enemies = this.game.add.group(this.game.world);
     this.meerkats = this.game.add.group(this.enemies);
-    this.area.area.entities.forEach(function(e){this.meerkats.add(new Meerkat(this.game, e.x * 32, e.y * 32))}, this);
+    this.area.area.entities.forEach(function(e){this.meerkats.add(new Meerkat(this, e.x * 32, e.y * 32))}, this);
 
     this.arrows = new Arrows(this.game);
 
     if (this.options.location == 'start') {
-      this.player = new Player(this.game, this.area.start.x, this.area.start.y);
+      this.player = new Player(this.game, this.area.start.x, this.area.start.y, this.options.playerHealth);
       this.player.facing = 'right';
     } else if (this.options.location == 'end') {
-      this.player = new Player(this.game, this.area.end.x, this.area.end.y);
+      this.player = new Player(this.game, this.area.end.x, this.area.end.y, this.options.playerHealth);
       this.player.facing = 'left';
     }
+    this.healthText = this.add.text(10, this.game.height - 30, this.player.healthString(), {font: '20px Arial', fill: '#FFFFFF'});
+    this.healthText.fixedToCamera = true;
 
     this.area.drawScenery();
     this.trajectory = new Phaser.Line(this.player.x, this.player.y, this.input.x + this.camera.x, this.input.y + this.camera.y);
@@ -41,20 +42,20 @@ class PlayState extends Phaser.State {
     // this.game.input.onDown.add(function () {this.game.paused = true}, this);
     this.game.input.onUp.add(this.shoot, this);
     this.game.input.onDown.add(function(){console.log((this.game.input.x + this.game.camera.x) + ', ' + (this.game.input.y + this.game.camera.y))}, this);
-    this.game.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON, 0.1, 0.1);
+    // this.game.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON, 0.1, 0.1);
+    this.game.camera.follow(this.player);
     this.chargeBar = this.game.add.graphics(0, 0);
     this.chargeBar.fixedToCamera = true;
     this.chargeBarBackground = this.game.add.graphics(0, 0);
     this.chargeBarBackground.fixedToCamera = true;
     this.chargeBarBackground.beginFill(this.area.barColor, 0.3);
-    this.chargeBarBackground.drawRoundedRect(this.game.width / 2 - 150, 5, 300, 15, 3);
+    this.chargeBarBackground.drawRoundedRect(5, 5, this.game.width - 10, 10, 2);
   }
 
   update() {
     this.game.physics.arcade.collide(this.player, this.area.layer);
     this.game.physics.arcade.collide(this.arrows, this.area.layer);
     this.game.physics.arcade.collide(this.meerkats, this.area.layer);
-    // this.game.physics.arcade.collide(this.meerkats, this.arrows);
     this.game.physics.arcade.overlap(this.meerkats, this.arrows, this.arrowCollideEnemy, null, this);
     this.trajectory = new Phaser.Line(this.player.x, this.player.y, this.input.x + this.camera.x, this.input.y + this.camera.y);
     this.chargeBar.clear();
@@ -62,6 +63,7 @@ class PlayState extends Phaser.State {
     this.player.walkingLeft = false;
     this.player.walkingRight = false;
     this.player.jumping = false;
+    this.healthText.text = this.player.healthString();
     if (this.stick.isDown) {
       if (this.stick.force < 0.5) {
         if (Math.abs(this.stick.rotation) > Math.PI / 2) {
@@ -85,13 +87,12 @@ class PlayState extends Phaser.State {
         }
       }
     } else if (this.game.input.activePointer.isDown && this.player.body.blocked.down && this.player.body.velocity.isZero()) {
-      this.arrows.charge();
       this.player.charge(this.trajectory);
+      this.arrows.charge()
 
-      this.chargeBar.beginFill(this.area.barColor);
-      this.chargeBar.drawRoundedRect(this.game.width / 2 - 150, 5, this.arrows.chargeCapacity * 300, 15, 3)
+      this.chargeBar.beginFill(this.area.barColor, 0.5);
+      this.chargeBar.drawRoundedRect(5, 5, this.arrows.chargeCapacity * (this.game.width - 10), 10, 2);
     }
-    this.player.movement(this.keyboard);
 
     this.enemies.forEach(function(g){g.forEach(function(e){
       if (e.enabled) {
@@ -114,16 +115,17 @@ class PlayState extends Phaser.State {
     if (this.player.x > this.game.world.width) {
       if (this.controller) { this.controller.destroy(); }
       this.game.level++;
-      this.game.state.start('play', true, false, {area: this.game.levels[this.game.level], location: 'start'});
+      this.game.state.start('play', true, false, {area: this.game.levels[this.game.level], location: 'start', playerHealth: this.player.health});
     } else if (this.player.x < 0) {
       if (this.controller) { this.controller.destroy(); }
       this.game.level--;
-      this.game.state.start('play', true, false, {area: this.game.levels[this.game.level], location: 'end'});
+      this.game.state.start('play', true, false, {area: this.game.levels[this.game.level], location: 'end', playerHealth: this.player.health});
     }
   }
 
   render() {
-    // this.game.debug.text(this.game.time.fps, 20, this.game.height - 20, "#00ff00");
+    this.game.debug.text(this.game.time.fps, 10, 50, "#00ff00");
+    // this.game.debug.body(this.player);
   }
 
   shoot() {
@@ -134,10 +136,12 @@ class PlayState extends Phaser.State {
 
   arrowCollideEnemy(meerkat, arrow) {
     if (!meerkat.invincible && !arrow.body.blocked.down) {
-      meerkat.health -= 10;
-      meerkat.invincible = true;
-      meerkat.tint = 0x999999;
-      this.game.time.events.add(1000, meerkat.vulnerable, meerkat);
+      arrow.destroy();
+      this.world.bringToTop(meerkat);
+      meerkat.damage(10);
+      // meerkat.invincible = true;
+      // meerkat.tint = 0x999999;
+      // this.game.time.events.add(1000, meerkat.vulnerable, meerkat);
     }
   }
 }

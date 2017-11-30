@@ -11,9 +11,9 @@ class Game extends Phaser.Game {
       width: 768,
       height: 480,
       antialias: false,
-      resolution: 2,
+      resolution: 3,
       parent: 'game',
-      renderer: Phaser.Canvas
+      renderer: Phaser.CANVAS
     };
     super(config);
 

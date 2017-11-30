@@ -9,9 +9,13 @@
         "y": 12
       }
     ],
-    "player": {
-      "x": 10,
-      "y": 10
+    "start": {
+      "x": 16,
+      "y": 192
+    },
+    "end": {
+      "x": 1952,
+      "y": 240
     }
   },
 
@@ -19,9 +23,13 @@
     "tilemap": "area_2",
     "tileset": "grass",
     "entities": [],
-    "player": {
-      "x": 10,
-      "y": 10
+    "start": {
+      "x": 16,
+      "y": 400
+    },
+    "end": {
+      "x": 976,
+      "y": 64
     }
   },
 
@@ -29,9 +37,13 @@
     "tilemap": "area_3",
     "tileset": "grass",
     "entities": [],
-    "player": {
-      "x": 10,
-      "y": 10
+    "start": {
+      "x": 16,
+      "y": 80
+    },
+    "end": {
+      "x": 480,
+      "y": 144
     }
   },
 
@@ -94,7 +106,7 @@
       {"key": "tree", "x": 54, "y": 5}
     ],
     "entities": [
-      {"key": "meerkat", "x": 1, "y": 3},
+      {"key": "meerkat", "x": 1, "y": 8},
       {"key": "meerkat", "x": 7, "y": 5},
       {"key": "meerkat", "x": 17, "y": 10},
       {"key": "meerkat", "x": 22, "y": 1},
